@@ -11,28 +11,41 @@
 <body>
 
     <div class="calculator">
-        <div class="display"></div>
-        <div class="btns">
-            <div class="digits">
-                <button>0</button>
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>4</button>
-                <button>5</button>
-                <button>6</button>
-                <button>7</button>
-                <button>8</button>
-                <button>9</button>
-            </div>
-            <div class="operators">
-                <button>+</button>
-                <button>-</button>
-                <button>x</button>
-                <button>/</button>
-                <button>=</button>
-                <button>clear</button>
-            </div>
+        <div class="display">
+            <p>0</p>
+            <p>0</p>
+        </div>
+        <div class="btn">
+            <table>
+                <tr>
+                    <td><button id="clear">C</button></td>
+                    <td><button id="multiply">*</button></td>
+                    <td> <button id="divide">/</button></td>
+                    <td><button id="backspace">&#9003;</button></td>
+                </tr>
+                <tr>
+                    <td><button id="seven">7</button></td>
+                    <td><button id="eight">8</button></td>
+                    <td><button id="nine">9</button></td>
+                    <td><button id="add">+</button></td>
+                </tr>
+                <tr>
+                    <td><button id="four">4</button></td>
+                    <td><button id="five">5</button></td>
+                    <td><button id="six">6</button></td>
+                    <td><button id="subtract">-</button></td>
+                </tr>
+                <tr>
+                    <td><button id="one">1</button></td>
+                    <td><button id="two">2</button></td>
+                    <td><button id="three">3</button></td>
+                    <td rowspan="2"><button id="equals">=</button></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button id="zero">0</button></td>
+                    <td><button id="dot">.</button></td>
+                </tr>
+            </table>
         </div>
     </div>
 
