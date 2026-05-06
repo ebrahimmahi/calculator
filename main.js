@@ -11,13 +11,18 @@ function multiply(a, b){
 }
 
 function divide(a, b){
+    if(b == 0) return null
     return a / b 
 }
 
-let num1 = "", num2 = "", operator, result;
+let currentInput = "", previousValue = "", operator = ""
+
+function roundResult(result){
+    return Math.round(result * 100000) / 100000
+}
 
 function operate(num1, operator, num2){
-
+    let result
     num1 = Number(num1)
     num2 = Number(num2)
 
@@ -26,48 +31,99 @@ function operate(num1, operator, num2){
     else if(operator === "*") result = multiply(num1, num2)
     else if(operator === "/") result = divide(num1, num2)
 
-    return result
+    if(result == null){
+        display.innerText = "error"
+        currentInput = ""
+        previousValue = ""
+        operator = ""
+        return
+    }
+
+    return roundResult(result)
 }
 
-let isClicked = false;
+const expression = document.querySelector(".work")
+const display = document.querySelector(".res")
 
-const showOpr = document.querySelector(".work")
-const showRes = document.querySelector(".res")
+let reset = false;
+
+const numBtns = document.querySelectorAll(".num")
+numBtns.forEach(numBtn => {
+    numBtn.addEventListener("click", () => {
+        if(reset){
+            currentInput = ""
+            reset = false
+        }
+        currentInput += numBtn.innerText
+        display.innerText = currentInput
+    })
+})
+
 
 
 const operatorBtns = document.querySelectorAll(".operator")
-Array.from(operatorBtns).forEach(operatorBtn => operatorBtn.addEventListener("click", () => {
-    if(num2){
-        let tempRes = operate(num1, operator, num2)
-        num1 =  tempRes
-        num2 = ""
-        showOpr.textContent = tempRes;
-    }
-    operator = operatorBtn.textContent
-    isClicked = true
-    showOpr.textContent += operator
-}))
+operatorBtns.forEach(operatorBtn => {
+    operatorBtn.addEventListener("click", () => {
+        if(currentInput === "" && previousValue === "") return
 
-const numBtns = document.querySelectorAll(".num")
-Array.from(numBtns).forEach(numBtn => numBtn.addEventListener("click", () => {
-    let content = numBtn.textContent
-    if(!isClicked){
-        num1 += content
-        showOpr.textContent += content
-    }
-    else{
-        num2 += content
-        showOpr.textContent += content
-    }
-    console.log(num1)
-    console.log(num2)
-}))
+        if(previousValue !== "" && operator !== "" && currentInput !== ""){
+            let result = operate(previousValue, operator, currentInput)
+            previousValue = result
+            display.innerText = previousValue
+            currentInput = ""
+        }
+        else{
+            previousValue = currentInput || previousValue
+        }
+
+        operator = operatorBtn.innerText;
+        currentInput = ""
+    })
+})
 
 
-const equalBtn = document.querySelector("#equals")
-equalBtn.addEventListener("click", () => {
-    let tempRes = operate(num1, operator, num2)
-    showRes.textContent = tempRes
-    num1 = tempRes
-    num2 = ""
+
+const equalTo = document.querySelector("#equals")
+equalTo.addEventListener("click", () => {
+    if(currentInput !== "" && operator !== "" && previousValue !== ""){
+        result = operate(previousValue, operator, currentInput)
+        expression.innerText = previousValue + " " + operator + " " + currentInput
+        display.innerText = result
+        currentInput = String(result)
+        previousValue = ""
+        operator = ""
+        reset = true
+    }
+})
+
+const clear = document.querySelector("#clear")
+clear.addEventListener("click", () => {
+    currentInput = ""
+    previousValue = ""
+    operator = ""
+    display.innerText = ""
+    expression.innerText = ""
+})
+
+const backSpace = document.querySelector("#backspace")
+backSpace.addEventListener("click", () => {
+    currentInput = currentInput.slice(0, -1)
+    display.innerText = currentInput
+    if(currentInput.length == 0){
+        display.innerText = "0"
+    }
+})
+
+const decimal = document.querySelector("#dot")
+decimal.addEventListener("click", () => {
+    if (reset) {
+        currentInput = "0";
+        reset = false;
+    }
+    if(currentInput == ""){
+        currentInput += "0"
+    }
+    if(!currentInput.includes('.')){
+        currentInput += '.'   
+    }
 })
