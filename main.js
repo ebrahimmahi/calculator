@@ -127,3 +127,37 @@ decimal.addEventListener("click", () => {
         currentInput += '.'   
     }
 })
+
+
+document.addEventListener("keydown", (e) => {
+    const key = e.key
+
+    if(!isNaN(key)){
+        document.querySelectorAll(".num").forEach(btn => {
+            if(btn.innerText === key) btn.click()
+        })
+    }
+
+    if(['+', "-", "*", "/"].includes(key)){
+        document.querySelectorAll(".operator").forEach(btn => {
+            if(btn.innerText === key) btn.click()
+        })
+    }
+
+    if(key === "Enter"){
+        document.querySelector("#equals").click()
+    }
+
+    if(key === "Backspace"){
+        document.querySelector("#backspace").click()
+    }
+
+    if(key === "Escape"){
+        document.querySelector("#clear").click()
+    }
+
+    if(key === "."){
+        document.querySelector("#dot").click()
+    }
+
+}) 
